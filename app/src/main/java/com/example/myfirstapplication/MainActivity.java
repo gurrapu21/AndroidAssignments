@@ -1,36 +1,81 @@
 package com.example.myfirstapplication;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.TextView;
+import android.widget.ImageView;
 
-import androidx.activity.EdgeToEdge;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
+
+import com.example.myfirstapplication.entites.Form;
+import com.google.android.material.textfield.TextInputEditText;
 
 public class MainActivity extends AppCompatActivity {
 
-
-    private EditText editText;
-    private Button button;
-    private TextView textView;
+    private TextInputEditText nameEditText, emailEditText, phoneEditText, passwordEditText;
+    private static final int PICK_IMAGE_REQUEST = 1;
+    private Uri imageUri;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_input_form);
 
-        editText = findViewById(R.id.inputField);
-        button = findViewById(R.id.button);
-        textView = findViewById(R.id.textField);
+        nameEditText = findViewById(R.id.name);
+        emailEditText = findViewById(R.id.email);
+        phoneEditText = findViewById(R.id.phone);
+        passwordEditText = findViewById(R.id.password);
+        Button clickButton = findViewById(R.id.submit);
 
-        button.setOnClickListener((View v) -> {
-                String text = editText.getText().toString();
-                textView.setText(text);
+        Button selectImageButton = findViewById(R.id.selectImageButton);
+        selectImageButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openImageChooser();
+            }
         });
+
+        clickButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String name = nameEditText.getText().toString();
+                String email = emailEditText.getText().toString();
+                String phone = phoneEditText.getText().toString();
+                String password = passwordEditText.getText().toString();
+
+                Intent intent = new Intent(MainActivity.this, DisplayFormActivity.class);
+//                intent.putExtra("form", new Form(name, imageUri, password, phone, email));
+                startActivity(intent);
+            }
+        });
+    }
+
+    private void openImageChooser() {
+        Intent intent = new Intent();
+        intent.setType("image/*");
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE_REQUEST);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
+            imageUri = data.getData();
+
+
+
+            String imageUriString = imageUri.toString();
+            if (imageUriString != null) {
+                imageUri = Uri.parse(imageUriString);
+
+                ImageView iv = findViewById(R.id.imageView);
+                iv.setImageURI(imageUri);
+
+            }
+        }
     }
 }

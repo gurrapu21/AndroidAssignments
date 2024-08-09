@@ -1,6 +1,7 @@
 package com.example.myfirstapplication;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
@@ -20,9 +21,13 @@ public class DisplayFormActivity extends AppCompatActivity {
         TextView passwordTextView = findViewById(R.id.display_password);
         ImageView imageView = findViewById(R.id.image);
 
-        Form form =  getIntent().getParcelableExtra("form");
+        Form form = getIntent().getParcelableExtra("form");
 
-        imageView.setImageURI(form.getImageUri());
+
+        if(form.getImageUri() != null)
+            imageView.setImageURI(form.getImageUri());
+        else
+            imageView.setImageBitmap(form.getImageBitmap());
         nameTextView.setText("Name: " + form.getName());
         emailTextView.setText("Email: " + form.getEmail());
         phoneTextView.setText("Phone: " + form.getPhone());

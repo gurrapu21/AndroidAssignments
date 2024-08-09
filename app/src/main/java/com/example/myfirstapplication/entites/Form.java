@@ -1,10 +1,13 @@
 package com.example.myfirstapplication.entites;
 
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Parcel;
 import android.os.Parcelable;
 
 import androidx.annotation.NonNull;
+
+import java.io.Serializable;
 
 public class Form implements Parcelable {
 
@@ -15,9 +18,41 @@ public class Form implements Parcelable {
     private String password;
     private Uri imageUri;
 
+
+    private Bitmap imageBitmap;
+
+
+    public Form(String name, String email, String phone, String password, Uri imageUri, Bitmap imageBitmap) {
+        this.name = name;
+        this.email = email;
+        this.phone = phone;
+        this.password = password;
+        this.imageUri = imageUri;
+        this.imageBitmap = imageBitmap;
+    }
+
+    public Bitmap getImageBitmap() {
+        return imageBitmap;
+    }
+
+    public void setImageBitmap(Bitmap imageBitmap) {
+        this.imageBitmap = imageBitmap;
+    }
+
+
+
+
     public Form(String name, Uri imageUri, String password, String phone, String email) {
         this.name = name;
         this.imageUri = imageUri;
+        this.password = password;
+        this.phone = phone;
+        this.email = email;
+    }
+
+    public Form(String name, Bitmap imageBitmap, String password, String phone, String email){
+        this.name = name;
+        this.imageBitmap = imageBitmap;
         this.password = password;
         this.phone = phone;
         this.email = email;
@@ -30,6 +65,7 @@ public class Form implements Parcelable {
         phone = in.readString();
         password = in.readString();
         imageUri = in.readParcelable(Uri.class.getClassLoader());
+        imageBitmap = in.readParcelable(Bitmap.class.getClassLoader());
     }
 
     public static final Creator<Form> CREATOR = new Creator<Form>() {
@@ -96,5 +132,6 @@ public class Form implements Parcelable {
         parcel.writeString(phone);
         parcel.writeString(password);
         parcel.writeParcelable(imageUri, i);
+        parcel.writeParcelable(imageBitmap, i);
     }
 }
