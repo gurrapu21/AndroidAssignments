@@ -23,7 +23,8 @@ public class CallLogHelper {
                 long dateMillis = cursor.getLong(cursor.getColumnIndex(CallLog.Calls.DATE));
                 String date = formatDate(dateMillis);
                 String duration = cursor.getString(cursor.getColumnIndex(CallLog.Calls.DURATION));
-                String type = cursor.getString(cursor.getColumnIndex(CallLog.Calls.TYPE));
+                int typeInt = cursor.getInt(cursor.getColumnIndex(CallLog.Calls.TYPE));
+                String type = getCallTypeString(typeInt);
 
                 callLogs.add(new CallLogEntity(number, date, duration, type));
             }
@@ -35,5 +36,24 @@ public class CallLogHelper {
     private static String formatDate(long dateMillis) {
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss", Locale.getDefault());
         return sdf.format(new Date(dateMillis));
+    }
+
+    private static String getCallTypeString(int type) {
+        switch (type) {
+            case CallLog.Calls.INCOMING_TYPE:
+                return "Incoming";
+            case CallLog.Calls.OUTGOING_TYPE:
+                return "Outgoing";
+            case CallLog.Calls.MISSED_TYPE:
+                return "Missed";
+            case CallLog.Calls.VOICEMAIL_TYPE:
+                return "Voicemail";
+            case CallLog.Calls.REJECTED_TYPE:
+                return "Rejected";
+            case CallLog.Calls.BLOCKED_TYPE:
+                return "Blocked";
+            default:
+                return "Unknown";
+        }
     }
 }

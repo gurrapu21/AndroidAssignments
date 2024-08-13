@@ -34,9 +34,9 @@ public class CallLogAdapter extends RecyclerView.Adapter<CallLogAdapter.ViewHold
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         CallLogEntity callLog = callLogs.get(position);
         holder.number.setText(callLog.getNumber());
+        holder.type.setText(callLog.getType());
         holder.date.setText(callLog.getDate());
         holder.duration.setText(callLog.getDuration());
-        holder.type.setText(callLog.getType());
 
         holder.itemView.setOnClickListener(v -> {
             Intent intent = new Intent(context, CallLogDetailsActivity.class);
@@ -44,6 +44,8 @@ public class CallLogAdapter extends RecyclerView.Adapter<CallLogAdapter.ViewHold
             context.startActivity(intent);
         });
     }
+
+
 
     @Override
     public int getItemCount() {
