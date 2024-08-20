@@ -19,7 +19,6 @@ public class DetailsFragment extends Fragment {
         TextView tvName = view.findViewById(com.example.myfirstapplication.R.id.tvName);
         TextView tvGender = view.findViewById(R.id.tvGender);
 
-        // Retrieve data from arguments
         Bundle args = getArguments();
         if (args != null) {
             String name = args.getString("name", "Name Placeholder");

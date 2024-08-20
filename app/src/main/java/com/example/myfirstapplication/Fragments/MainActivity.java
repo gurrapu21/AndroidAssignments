@@ -29,18 +29,15 @@ public class MainActivity extends AppCompatActivity {
         String name = editName.getText().toString();
         String gender = spinnerGender.getSelectedItem().toString();
 
-        // Create a bundle to pass data to the fragment
         Bundle bundle = new Bundle();
         bundle.putString("name", name);
         bundle.putString("gender", gender);
 
-        // Replace the fragment container with the DetailsFragment
         DetailsFragment fragment = new DetailsFragment();
         fragment.setArguments(bundle);
 
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        FragmentTransaction transaction = fragmentManager.beginTransaction();
-        transaction.replace(R.id.fragmentContainer, fragment);
-        transaction.commit();
+        getSupportFragmentManager()
+        .beginTransaction().
+        replace(R.id.fragmentContainer, fragment).commit();
     }
 }
