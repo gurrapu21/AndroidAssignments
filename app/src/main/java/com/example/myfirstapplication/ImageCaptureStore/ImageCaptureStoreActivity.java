@@ -89,9 +89,11 @@ public class ImageCaptureStoreActivity extends AppCompatActivity {
 
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(new Date());
 
-        String fileName = "IMG_" + timeStamp + ".jpg";
+        String fileName = timeStamp + ".jpg";
 
         File imageFile = new File(storageDir, fileName);
+
+
 
         try {
 
@@ -101,6 +103,7 @@ public class ImageCaptureStoreActivity extends AppCompatActivity {
             outputStream.close();
             Toast.makeText(this, "Image saved Successfully", Toast.LENGTH_LONG)
                     .show();
+
 
         } catch (Exception e) {
             Log.d("Error", e.getMessage());
