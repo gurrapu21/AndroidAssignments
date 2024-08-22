@@ -23,6 +23,7 @@ public class BroadcastActivity extends AppCompatActivity implements SendNums {
 
 
     private TextView add, sub, div, mul;
+    private BCRecever bcRecever;
 
     @SuppressLint("WrongViewCast")
     @Override
@@ -36,11 +37,11 @@ public class BroadcastActivity extends AppCompatActivity implements SendNums {
         sub = findViewById(R.id.sub);
         div = findViewById(R.id.divd);
 
-        BCRecever bcRecever = new BCRecever(this);
+        bcRecever = new BCRecever(this);
 
         IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction("android.intent.action.GET_TWO_NUMBERS");
-        registerReceiver(bcRecever, intentFilter);
+//        registerReceiver(bcRecever, intentFilter);
 
         EditText num1 = findViewById(R.id.num1), num2 = findViewById(R.id.num2);
 
@@ -50,7 +51,6 @@ public class BroadcastActivity extends AppCompatActivity implements SendNums {
             intent.putExtra("num2", num2.getText().toString());
             sendBroadcast(intent);
         });
-
     }
 
     @Override
@@ -66,5 +66,13 @@ public class BroadcastActivity extends AppCompatActivity implements SendNums {
         this.div.setText(String.valueOf(div));
         this.mul.setText(String.valueOf(mul));
 
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        // Unregister the BroadcastReceiver when the activity is destroyed
+//        unregisterReceiver(bcRecever);
     }
 }
